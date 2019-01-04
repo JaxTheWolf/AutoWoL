@@ -1,0 +1,24 @@
+{
+  "name": "autowol",
+  "version": "0.0.1",
+  "description": "Sends a WoL packet to a MAC adress whenever it detects a certain MAC on the network.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JaxTheWolf/AutoWoL.git"
+  },
+  "author": "Roman Lubij",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JaxTheWolf/AutoWoL/issues"
+  },
+  "homepage": "https://github.com/JaxTheWolf/AutoWoL#readme",
+  "dependencies": {
+    "cron": "^1.6.0",
+    "local-network-scanner": "^0.2.0",
+    "wol": "^1.0.5"
+  }
+}
