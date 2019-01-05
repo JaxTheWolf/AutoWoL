@@ -1,17 +1,26 @@
 const scanner = require(`local-network-scanner`);
-const { devName } = require(`./conf.json`);
+const { devName, trigger, toWake } = require(`./conf.json`);
+const wol = require(`wol`);
 let cron = require(`cron`);
-let now = Date();
 
-let cronJob = cron.job("0 */10 * * * *", function(devName) {
-  scanner.scan(
-    {
-      arguments: [`-I`, devName]
-    },
-    devices => {
-      console.log(devices);
+function timeChecker() {
+  const now = new Date();
+  return now.getHours() >= 12 && now.getHours() < 16;
+}
+
+function wakeNow(triggerMac, dev, wake) {
+  scanner.scan({ arguments: [`-I`, dev] }, devices => {
+    if (triggerMac in devices) {
+      wol.wake(wake, function(err, res) {
+        if (err) console.log(err);
+        console.log(res);
+      });
     }
-  );
-});
+  });
+}
 
-console.log(now);
+function checkStatus() {
+  if (timeChecker()) wakeNow(trigger, devName, toWake);
+}
+
+setInterval(checkStatus, 300000);
