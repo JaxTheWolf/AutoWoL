@@ -12,7 +12,10 @@ function wakeNow(triggerMac, dev, wake) {
   scanner.scan({ arguments: [`-I`, dev] }, devices => {
     if (triggerMac in devices) {
       wol.wake(wake, function(err, res) {
-        if (err) console.log(err);
+        if (err) {
+          console.log(err);
+        } else {
+        }
         console.log(res);
       });
     }

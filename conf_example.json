@@ -1,0 +1,5 @@
+{
+  "devName": "interface name",
+  "trigger": "mac",
+  "toWake": "mac"
+}
