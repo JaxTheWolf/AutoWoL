@@ -1,29 +1,29 @@
-const scanner = require(`local-network-scanner`);
-const { devName, trigger, toWake } = require(`./conf.json`);
+const { trigger, toWake, hoursMin, hoursMax } = require(`./conf.json`);
 const wol = require(`wol`);
-let cron = require(`cron`);
+let ping_ = require(`net-ping`);
+let session = ping_.createSession();
 
 function timeChecker() {
   const now = new Date();
-  return now.getHours() >= 12 && now.getHours() < 16;
+  return now.getHours() >= hoursMin && now.getHours() < hoursMax;
 }
 
-function wakeNow(triggerMac, dev, wake) {
-  scanner.scan({ arguments: [`-I`, dev] }, devices => {
-    if (triggerMac in devices) {
-      wol.wake(wake, function(err, res) {
-        if (err) {
-          console.log(err);
-        } else {
-        }
-        console.log(res);
-      });
+function ping(ip, toWake) {
+  session.pingHost(ip, function(error, target) {
+    if (error) {
+      console.log(`${target}: ` + error.toString());
+    } else {
+      console.log(`${target}: Alive`);
+      if (timeChecker()) {
+        wol.wake(toWake, function(err, res) {
+          if (err) console.log(`ERR! ${err}`);
+          else console.log(`RES! ${res}`);
+        });
+      } else {
+        console.log(`nope`);
+      }
     }
   });
 }
 
-function checkStatus() {
-  if (timeChecker()) wakeNow(trigger, devName, toWake);
-}
-
-setInterval(checkStatus, 300000);
+setInterval(ping, 300000, trigger, toWake);

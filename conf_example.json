@@ -1,5 +1,6 @@
 {
-  "devName": "interface name",
-  "trigger": "mac",
-  "toWake": "mac"
+  "trigger": "ip",
+  "toWake": "mac",
+  "hoursMin": number,
+  "hoursMax": number
 }
