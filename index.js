@@ -26,4 +26,4 @@ function ping(ip, toWake) {
   });
 }
 
-setInterval(ping, 300000, trigger, toWake);
+setInterval(ping, 60000, trigger, toWake);
